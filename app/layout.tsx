@@ -1,5 +1,12 @@
 import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 import './globals.css';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Newtonite OpsPulse | Mission-Critical Operations Platform',
@@ -12,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className="min-h-screen bg-[#0a0e17] text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
+    <html lang="en" className={inter.variable}>
+      <body className="min-h-screen bg-slate-50 text-slate-900 antialiased font-sans selection:bg-blue-600 selection:text-white">
         {children}
       </body>
     </html>
