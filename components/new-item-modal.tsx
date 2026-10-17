@@ -68,22 +68,25 @@ export function NewItemModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-      <div className="w-full max-w-lg bg-[#111c33] border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/35 backdrop-blur-[3px] p-4">
+      <div className="w-full max-w-lg bg-white border border-slate-200 rounded-2xl shadow-lift overflow-hidden animate-panel-in">
         {/* Header */}
-        <div className="p-5 border-b border-slate-800 flex items-center justify-between">
+        <div className="p-5 border-b border-slate-100 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-blue-600/20 text-blue-400 rounded-lg border border-blue-500/30">
+            <div className="p-2 bg-blue-50 text-blue-600 rounded-lg border border-blue-100">
               <Plus className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white">Create Operational Work Item</h3>
-              <p className="text-xs text-slate-400">Idempotency-protected submission</p>
+              <h3 className="text-[15px] font-bold text-slate-900">Create Operational Work Item</h3>
+              <p className="text-[11px] text-slate-400 flex items-center gap-1">
+                Idempotency-protected submission
+                <span className="font-mono text-[9px] px-1 py-px rounded bg-slate-100 border border-slate-200 text-slate-500">X-Idempotency-Key</span>
+              </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition"
+            className="text-slate-400 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-100 transition focus-ring"
           >
             <X className="w-5 h-5" />
           </button>
@@ -91,7 +94,7 @@ export function NewItemModal({
 
         {/* Error message */}
         {error && (
-          <div className="bg-rose-950/80 border-b border-rose-800/60 px-5 py-2.5 text-xs text-rose-300">
+          <div className="bg-rose-50 border-b border-rose-200 px-5 py-2.5 text-xs text-rose-700 font-medium animate-panel-in">
             {error}
           </div>
         )}
@@ -99,24 +102,24 @@ export function NewItemModal({
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4 text-xs">
           <div>
-            <label className="text-slate-300 font-semibold block mb-1.5">Item Title</label>
+            <label className="text-slate-700 font-semibold block mb-1.5">Item Title</label>
             <input
               type="text"
               placeholder="e.g. EU Direct Debit Gateway Latency Spike"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500 text-sm"
+              className="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 text-sm placeholder-slate-300 transition"
               required
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-slate-300 font-semibold block mb-1.5">Category</label>
+              <label className="text-slate-700 font-semibold block mb-1.5">Category</label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as any)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200"
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-800 font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 cursor-pointer transition"
               >
                 <option value="INCIDENT">Incident</option>
                 <option value="PAYMENT_INVESTIGATION">Payment Investigation</option>
@@ -127,11 +130,11 @@ export function NewItemModal({
             </div>
 
             <div>
-              <label className="text-slate-300 font-semibold block mb-1.5">Priority</label>
+              <label className="text-slate-700 font-semibold block mb-1.5">Priority</label>
               <select
                 value={priority}
                 onChange={(e) => setPriority(e.target.value as any)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200"
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-800 font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 cursor-pointer transition"
               >
                 <option value="CRITICAL">Critical</option>
                 <option value="HIGH">High</option>
@@ -142,11 +145,11 @@ export function NewItemModal({
           </div>
 
           <div>
-            <label className="text-slate-300 font-semibold block mb-1.5">Assigned Department</label>
+            <label className="text-slate-700 font-semibold block mb-1.5">Assigned Department</label>
             <select
               value={teamId}
               onChange={(e) => setTeamId(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200"
+              className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-800 font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 cursor-pointer transition"
             >
               {teams.map((t) => (
                 <option key={t.id} value={t.id}>
@@ -157,29 +160,29 @@ export function NewItemModal({
           </div>
 
           <div>
-            <label className="text-slate-300 font-semibold block mb-1.5">Investigation Summary & Scope</label>
+            <label className="text-slate-700 font-semibold block mb-1.5">Investigation Summary & Scope</label>
             <textarea
               rows={4}
               placeholder="Describe what occurred, impacted services, and reason for urgency..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500 text-xs leading-relaxed"
+              className="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 text-xs leading-relaxed placeholder-slate-300 transition resize-none"
               required
             />
           </div>
 
-          <div className="pt-2 flex items-center justify-end gap-3 border-t border-slate-800">
+          <div className="pt-3 flex items-center justify-end gap-2.5 border-t border-slate-100">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-slate-400 hover:text-white rounded-lg transition"
+              className="px-4 py-2 text-slate-500 hover:text-slate-800 rounded-lg transition font-medium hover:bg-slate-50 focus-ring"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg transition shadow-lg shadow-blue-900/40 flex items-center gap-1.5"
+              className="px-5 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold rounded-lg transition shadow-sm hover:shadow-md active:scale-[0.98] flex items-center gap-1.5 focus-ring"
             >
               <Sparkles className="w-4 h-4" />
               <span>{isSubmitting ? 'Creating...' : 'Create Item'}</span>
