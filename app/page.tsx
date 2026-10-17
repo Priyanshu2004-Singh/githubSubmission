@@ -8,8 +8,8 @@ import { WorkItemDetailModal } from '@/components/work-item-detail-modal';
 import { NewItemModal } from '@/components/new-item-modal';
 import { KanbanBoard } from '@/components/kanban-board';
 import { ConcurrencySimulator } from '@/components/concurrency-simulator';
-import { 
-  Shield, AlertTriangle, Clock, Search, Filter, Plus, Radio, RefreshCw, 
+import {
+  Shield, AlertTriangle, Clock, Search, Filter, Plus, Radio, RefreshCw,
   ChevronRight, Users, CheckCircle2, Zap, LayoutGrid, ListFilter, ArrowUpDown
 } from 'lucide-react';
 
@@ -141,52 +141,57 @@ export default function OpsCommandCenter() {
   }, [fetchWorkItems]);
 
   return (
-    <div className="min-h-screen bg-[#0a0e17] text-slate-100 flex flex-col">
+    <div className="min-h-screen bg-app-canvas text-slate-900 flex flex-col">
       {/* Top Global Navigation Bar */}
-      <header className="bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-30 px-6 py-3.5">
+      <header className="bg-white/85 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30 px-6 py-3 shadow-soft">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center font-black text-white text-base shadow-lg shadow-blue-500/25">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center font-bold text-white text-base shadow-sm ring-1 ring-inset ring-white/20">
                 N
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h1 className="text-base font-extrabold tracking-tight text-white">
-                    Newtonite <span className="text-blue-400 font-medium">OpsPulse</span>
+                  <h1 className="text-[15px] font-bold tracking-tight text-slate-900">
+                    Newtonite <span className="text-blue-600 font-semibold">OpsPulse</span>
                   </h1>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-950/80 text-blue-300 border border-blue-800/80 uppercase">
+                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 font-medium">
                     v1.0-RC
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-400">Operations Under Pressure Coordination Center</p>
+                <p className="text-[11px] text-slate-400 font-medium">Operations Under Pressure Coordination Center</p>
               </div>
             </div>
 
             {/* Live SSE heartbeat status */}
-            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900 border border-slate-800 text-[11px]">
-              <span className={`w-2 h-2 rounded-full ${sseConnected ? 'bg-emerald-500 shadow-sm shadow-emerald-500/80' : 'bg-rose-500'}`} />
-              <span className="text-slate-400">
-                {sseConnected ? 'Live SSE Sync Connected' : 'Sync Offline'}
+            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-[11px]">
+              <span className="relative flex w-2 h-2">
+                {sseConnected && (
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 live-ping" />
+                )}
+                <span className={`relative inline-flex rounded-full w-2 h-2 ${sseConnected ? 'bg-emerald-500' : 'bg-rose-500'}`} />
+              </span>
+              <span className={sseConnected ? 'text-emerald-700 font-medium' : 'text-rose-600 font-medium'}>
+                {sseConnected ? 'Live · SSE Sync Connected' : 'Sync Offline'}
               </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {/* User Switcher (Crucial for recruiter evaluation) */}
-            <div className="flex items-center gap-2 bg-slate-900/90 border border-slate-700/80 rounded-xl px-3 py-1.5 text-xs shadow-inner">
-              <Users className="w-3.5 h-3.5 text-blue-400" />
-              <span className="text-slate-400 hidden sm:inline">Active Persona:</span>
+            <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-xs shadow-soft">
+              <Users className="w-3.5 h-3.5 text-blue-600" />
+              <span className="text-slate-400 hidden sm:inline font-medium">Active Persona:</span>
               <select
                 value={currentUser?.id || ''}
                 onChange={(e) => {
                   const u = users.find((x) => x.id === e.target.value);
                   if (u) setCurrentUser(u);
                 }}
-                className="bg-transparent text-white font-semibold focus:outline-none cursor-pointer"
+                className="bg-transparent text-slate-900 font-semibold focus:outline-none cursor-pointer pr-1"
               >
                 {users.map((u) => (
-                  <option key={u.id} value={u.id} className="bg-slate-900 text-white">
+                  <option key={u.id} value={u.id} className="bg-white text-slate-900">
                     {u.name} ({u.role})
                   </option>
                 ))}
@@ -196,7 +201,7 @@ export default function OpsCommandCenter() {
             {/* Create Item Button */}
             <button
               onClick={() => setShowNewModal(true)}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition shadow-lg shadow-blue-900/40 flex items-center gap-1.5"
+              className="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition-all shadow-sm hover:shadow-md active:scale-[0.98] flex items-center gap-1.5 focus-ring"
             >
               <Plus className="w-4 h-4" />
               <span>Create Work Item</span>
@@ -206,81 +211,91 @@ export default function OpsCommandCenter() {
       </header>
 
       {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-6 space-y-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto p-6 space-y-5">
         {/* KPI Summary Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3.5">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
           {/* Critical Items */}
-          <div className="p-4 bg-gradient-to-br from-rose-950/40 to-slate-900/60 border border-rose-900/40 rounded-2xl shadow-lg">
-            <div className="flex items-center justify-between text-xs text-rose-300">
-              <span className="font-semibold uppercase tracking-wider text-[11px]">Critical Alerts</span>
-              <Shield className="w-4 h-4 text-rose-400" />
+          <div className="p-4 bg-white border border-slate-200 rounded-xl shadow-soft hover:shadow-card transition-shadow">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">Critical Alerts</span>
+              <span className="w-8 h-8 rounded-lg bg-rose-50 border border-rose-100 flex items-center justify-center">
+                <Shield className="w-4 h-4 text-rose-600" />
+              </span>
             </div>
-            <div className="text-2xl font-black text-rose-200 mt-2 font-mono">
+            <div className="text-[26px] leading-none font-bold text-slate-900 mt-3 font-mono tabular-nums">
               {metrics.critical_count}
             </div>
-            <span className="text-[11px] text-rose-400/80 mt-0.5 block">Requires immediate action</span>
+            <span className="text-[11px] text-slate-400 mt-1.5 block">Requires immediate action</span>
           </div>
 
           {/* SLA At Risk / Breached */}
-          <div className="p-4 bg-gradient-to-br from-amber-950/40 to-slate-900/60 border border-amber-900/40 rounded-2xl shadow-lg">
-            <div className="flex items-center justify-between text-xs text-amber-300">
-              <span className="font-semibold uppercase tracking-wider text-[11px]">SLA At Risk</span>
-              <AlertTriangle className="w-4 h-4 text-amber-400" />
+          <div className="p-4 bg-white border border-slate-200 rounded-xl shadow-soft hover:shadow-card transition-shadow">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">SLA At Risk</span>
+              <span className="w-8 h-8 rounded-lg bg-amber-50 border border-amber-100 flex items-center justify-center">
+                <AlertTriangle className="w-4 h-4 text-amber-600" />
+              </span>
             </div>
-            <div className="text-2xl font-black text-amber-200 mt-2 font-mono">
+            <div className="text-[26px] leading-none font-bold text-slate-900 mt-3 font-mono tabular-nums">
               {metrics.sla_warning_count + metrics.sla_breached_count}
             </div>
-            <span className="text-[11px] text-amber-400/80 mt-0.5 block">
-              {metrics.sla_breached_count} Breached | {metrics.sla_warning_count} Warning
+            <span className="text-[11px] text-slate-400 mt-1.5 block">
+              <span className="text-rose-500 font-medium">{metrics.sla_breached_count}</span> breached · <span className="text-amber-600 font-medium">{metrics.sla_warning_count}</span> warning
             </span>
           </div>
 
           {/* Pending Sign-Offs */}
-          <div className="p-4 bg-gradient-to-br from-blue-950/40 to-slate-900/60 border border-blue-900/40 rounded-2xl shadow-lg">
-            <div className="flex items-center justify-between text-xs text-blue-300">
-              <span className="font-semibold uppercase tracking-wider text-[11px]">Pending Approvals</span>
-              <CheckCircle2 className="w-4 h-4 text-blue-400" />
+          <div className="p-4 bg-white border border-slate-200 rounded-xl shadow-soft hover:shadow-card transition-shadow">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">Pending Approvals</span>
+              <span className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center">
+                <CheckCircle2 className="w-4 h-4 text-blue-600" />
+              </span>
             </div>
-            <div className="text-2xl font-black text-blue-200 mt-2 font-mono">
+            <div className="text-[26px] leading-none font-bold text-slate-900 mt-3 font-mono tabular-nums">
               {metrics.pending_approvals_count}
             </div>
-            <span className="text-[11px] text-blue-400/80 mt-0.5 block">Blocked awaiting sign-off</span>
+            <span className="text-[11px] text-slate-400 mt-1.5 block">Blocked awaiting sign-off</span>
           </div>
 
           {/* Unassigned Triage */}
-          <div className="p-4 bg-gradient-to-br from-purple-950/40 to-slate-900/60 border border-purple-900/40 rounded-2xl shadow-lg">
-            <div className="flex items-center justify-between text-xs text-purple-300">
-              <span className="font-semibold uppercase tracking-wider text-[11px]">Unclaimed Queue</span>
-              <Users className="w-4 h-4 text-purple-400" />
+          <div className="p-4 bg-white border border-slate-200 rounded-xl shadow-soft hover:shadow-card transition-shadow">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">Unclaimed Queue</span>
+              <span className="w-8 h-8 rounded-lg bg-violet-50 border border-violet-100 flex items-center justify-center">
+                <Users className="w-4 h-4 text-violet-600" />
+              </span>
             </div>
-            <div className="text-2xl font-black text-purple-200 mt-2 font-mono">
+            <div className="text-[26px] leading-none font-bold text-slate-900 mt-3 font-mono tabular-nums">
               {metrics.unassigned_count}
             </div>
-            <span className="text-[11px] text-purple-400/80 mt-0.5 block">Open for claim race</span>
+            <span className="text-[11px] text-slate-400 mt-1.5 block">Open for claim race</span>
           </div>
 
           {/* Total Work Items */}
-          <div className="p-4 bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-2xl shadow-lg">
-            <div className="flex items-center justify-between text-xs text-slate-400">
-              <span className="font-semibold uppercase tracking-wider text-[11px]">Total Active</span>
-              <Clock className="w-4 h-4 text-slate-500" />
+          <div className="p-4 bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-800 rounded-xl shadow-card">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-semibold text-slate-300 uppercase tracking-wide">Total Active</span>
+              <span className="w-8 h-8 rounded-lg bg-white/10 border border-white/10 flex items-center justify-center">
+                <Clock className="w-4 h-4 text-slate-300" />
+              </span>
             </div>
-            <div className="text-2xl font-black text-slate-200 mt-2 font-mono">
+            <div className="text-[26px] leading-none font-bold text-white mt-3 font-mono tabular-nums">
               {metrics.total_count}
             </div>
-            <span className="text-[11px] text-slate-500 mt-0.5 block">Across all 5 departments</span>
+            <span className="text-[11px] text-slate-400 mt-1.5 block">Across all 5 departments</span>
           </div>
         </div>
 
         {/* View Switcher Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-3">
-          <div className="flex items-center gap-1.5 bg-slate-900/80 p-1 rounded-xl border border-slate-800">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-1 bg-slate-200/70 p-1 rounded-lg">
             <button
               onClick={() => setActiveView('table')}
-              className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-2 ${
+              className={`px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5 ${
                 activeView === 'table'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200'
+                  : 'text-slate-500 hover:text-slate-800'
               }`}
             >
               <ListFilter className="w-3.5 h-3.5" />
@@ -288,10 +303,10 @@ export default function OpsCommandCenter() {
             </button>
             <button
               onClick={() => setActiveView('kanban')}
-              className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-2 ${
+              className={`px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5 ${
                 activeView === 'kanban'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200'
+                  : 'text-slate-500 hover:text-slate-800'
               }`}
             >
               <LayoutGrid className="w-3.5 h-3.5" />
@@ -299,25 +314,25 @@ export default function OpsCommandCenter() {
             </button>
             <button
               onClick={() => setActiveView('simulator')}
-              className={`px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-2 ${
+              className={`px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5 ${
                 activeView === 'simulator'
-                  ? 'bg-gradient-to-r from-amber-600 to-rose-600 text-white shadow-md'
-                  : 'text-amber-400/90 hover:text-amber-300'
+                  ? 'bg-amber-400 text-amber-950 shadow-sm ring-1 ring-amber-500/40'
+                  : 'text-amber-700 hover:bg-amber-50'
               }`}
             >
-              <Zap className="w-3.5 h-3.5 animate-pulse" />
+              <Zap className="w-3.5 h-3.5" />
               <span>Chaos & Concurrency Simulator</span>
             </button>
           </div>
 
-          <div className="text-xs text-slate-400">
-            Showing <strong className="text-slate-200">{items.length}</strong> items
+          <div className="text-xs text-slate-400 font-medium">
+            Showing <span className="text-slate-700 font-semibold">{items.length}</span> items
           </div>
         </div>
 
         {/* Filters Toolbar (Shown for Table and Kanban) */}
         {activeView !== 'simulator' && (
-          <div className="bg-[#111827]/70 border border-slate-800/80 rounded-2xl p-3.5 flex flex-wrap items-center gap-3">
+          <div className="bg-white border border-slate-200 rounded-xl p-3 shadow-soft flex flex-wrap items-center gap-2.5">
             {/* Search Input */}
             <div className="relative flex-1 min-w-[220px]">
               <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -326,7 +341,7 @@ export default function OpsCommandCenter() {
                 placeholder="Search by code (OPS-1001), keywords..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700/80 rounded-xl pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 transition"
               />
             </div>
 
@@ -334,7 +349,7 @@ export default function OpsCommandCenter() {
             <select
               value={selectedTeam}
               onChange={(e) => setSelectedTeam(e.target.value)}
-              className="bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-1.5 text-xs text-slate-300 focus:outline-none cursor-pointer"
+              className="bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-700 font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 cursor-pointer transition"
             >
               <option value="">All Departments</option>
               {teams.map((t) => (
@@ -348,7 +363,7 @@ export default function OpsCommandCenter() {
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-1.5 text-xs text-slate-300 focus:outline-none cursor-pointer"
+              className="bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-700 font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 cursor-pointer transition"
             >
               <option value="">All Statuses</option>
               <option value="TRIAGE">Triage</option>
@@ -363,7 +378,7 @@ export default function OpsCommandCenter() {
             <select
               value={selectedPriority}
               onChange={(e) => setSelectedPriority(e.target.value)}
-              className="bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-1.5 text-xs text-slate-300 focus:outline-none cursor-pointer"
+              className="bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-700 font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 cursor-pointer transition"
             >
               <option value="">All Priorities</option>
               <option value="CRITICAL">Critical</option>
@@ -376,7 +391,7 @@ export default function OpsCommandCenter() {
             <select
               value={assignedFilter}
               onChange={(e) => setAssignedFilter(e.target.value)}
-              className="bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-1.5 text-xs text-slate-300 focus:outline-none cursor-pointer"
+              className="bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-700 font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 cursor-pointer transition"
             >
               <option value="">All Ownership</option>
               <option value="unassigned">Unassigned Only</option>
@@ -389,9 +404,9 @@ export default function OpsCommandCenter() {
             <button
               onClick={() => fetchWorkItems()}
               title="Refresh Queue"
-              className="p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition border border-slate-800"
+              className="p-2 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition border border-transparent hover:border-slate-200 focus-ring"
             >
-              <RefreshCw className="w-3.5 h-3.5" />
+              <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             </button>
           </div>
         )}
@@ -403,34 +418,44 @@ export default function OpsCommandCenter() {
           <KanbanBoard items={items} onSelectItem={(id) => setSelectedItemId(id)} />
         ) : (
           /* Table View */
-          <div className="bg-[#0f172a]/90 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+          <div className="bg-white border border-slate-200 rounded-xl shadow-card overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
-                  <tr className="bg-slate-900/80 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold text-[11px]">
-                    <th className="py-3 px-4">Code</th>
-                    <th className="py-3 px-4">Priority</th>
-                    <th className="py-3 px-4">Title & Context</th>
-                    <th className="py-3 px-4">Department</th>
-                    <th className="py-3 px-4">Assignee</th>
-                    <th className="py-3 px-4">Status</th>
-                    <th className="py-3 px-4">SLA Deadline</th>
-                    <th className="py-3 px-4 text-center">Version</th>
-                    <th className="py-3 px-4 text-right">Action</th>
+                  <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-semibold text-[10.5px]">
+                    <th className="py-2.5 px-4">Code</th>
+                    <th className="py-2.5 px-4">Priority</th>
+                    <th className="py-2.5 px-4">Title & Context</th>
+                    <th className="py-2.5 px-4">Department</th>
+                    <th className="py-2.5 px-4">Assignee</th>
+                    <th className="py-2.5 px-4">Status</th>
+                    <th className="py-2.5 px-4">SLA Deadline</th>
+                    <th className="py-2.5 px-4 text-center">Version</th>
+                    <th className="py-2.5 px-4 text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/80 text-slate-300">
+                <tbody className="divide-y divide-slate-100 text-slate-600">
                   {loading && items.length === 0 ? (
-                    <tr>
-                      <td colSpan={9} className="py-12 text-center text-slate-400">
-                        <RefreshCw className="w-5 h-5 animate-spin mx-auto mb-2 text-blue-500" />
-                        Fetching operations queue...
-                      </td>
-                    </tr>
+                    /* Skeleton loading rows */
+                    Array.from({ length: 5 }).map((_, i) => (
+                      <tr key={`skeleton-${i}`}>
+                        <td className="py-4 px-4"><div className="h-3 w-16 rounded skeleton-shimmer" /></td>
+                        <td className="py-4 px-4"><div className="h-3 w-14 rounded skeleton-shimmer" /></td>
+                        <td className="py-4 px-4"><div className="h-3 w-72 rounded skeleton-shimmer" /></td>
+                        <td className="py-4 px-4"><div className="h-3 w-24 rounded skeleton-shimmer" /></td>
+                        <td className="py-4 px-4"><div className="h-3 w-20 rounded skeleton-shimmer" /></td>
+                        <td className="py-4 px-4"><div className="h-3 w-20 rounded skeleton-shimmer" /></td>
+                        <td className="py-4 px-4"><div className="h-3 w-16 rounded skeleton-shimmer" /></td>
+                        <td className="py-4 px-4 text-center"><div className="h-3 w-6 rounded skeleton-shimmer mx-auto" /></td>
+                        <td className="py-4 px-4 text-right"><div className="h-3 w-5 rounded skeleton-shimmer ml-auto" /></td>
+                      </tr>
+                    ))
                   ) : items.length === 0 ? (
                     <tr>
-                      <td colSpan={9} className="py-12 text-center text-slate-400">
-                        No work items match the selected filters.
+                      <td colSpan={9} className="py-14 text-center text-slate-400">
+                        <Search className="w-8 h-8 mx-auto mb-2.5 text-slate-200" />
+                        <p className="text-sm font-medium text-slate-500">No work items match the selected filters</p>
+                        <p className="text-xs mt-1">Try adjusting your search or filter criteria</p>
                       </td>
                     </tr>
                   ) : (
@@ -438,58 +463,58 @@ export default function OpsCommandCenter() {
                       <tr
                         key={item.id}
                         onClick={() => setSelectedItemId(item.id)}
-                        className="hover:bg-slate-800/50 cursor-pointer transition group"
+                        className="hover:bg-slate-50 cursor-pointer transition-colors group border-l-2 border-l-transparent hover:border-l-blue-500"
                       >
-                        <td className="py-3.5 px-4 font-mono font-bold text-blue-400 group-hover:text-blue-300 whitespace-nowrap">
+                        <td className="py-3 px-4 font-mono font-semibold text-blue-600 group-hover:text-blue-700 whitespace-nowrap">
                           {item.item_code}
                         </td>
-                        <td className="py-3.5 px-4 whitespace-nowrap">
+                        <td className="py-3 px-4 whitespace-nowrap">
                           <PriorityBadge priority={item.priority} />
                         </td>
-                        <td className="py-3.5 px-4 max-w-md">
-                          <div className="font-semibold text-slate-200 group-hover:text-white line-clamp-1">
+                        <td className="py-3 px-4 max-w-md">
+                          <div className="font-semibold text-slate-800 group-hover:text-slate-950 line-clamp-1">
                             {item.title}
                           </div>
                           <div className="flex items-center gap-2 mt-1">
                             <CategoryBadge category={item.category} />
                             {item.has_pending_approval && (
-                              <span className="text-[10px] text-amber-400 font-semibold bg-amber-950/80 px-1.5 py-0.2 rounded border border-amber-800/60">
+                              <span className="text-[10px] text-amber-700 font-semibold bg-amber-50 px-1.5 py-0.5 rounded-md border border-amber-200">
                                 Approval Pending
                               </span>
                             )}
                           </div>
                         </td>
-                        <td className="py-3.5 px-4 text-slate-300 font-medium whitespace-nowrap">
+                        <td className="py-3 px-4 text-slate-600 font-medium whitespace-nowrap">
                           {item.team_name}
                         </td>
-                        <td className="py-3.5 px-4 whitespace-nowrap">
+                        <td className="py-3 px-4 whitespace-nowrap">
                           {item.assignee_name ? (
-                            <div className="flex items-center gap-1.5 text-slate-200">
-                              <span className="w-5 h-5 rounded-full bg-blue-600/40 text-[10px] font-bold flex items-center justify-center text-blue-300">
+                            <div className="flex items-center gap-2 text-slate-700">
+                              <span className="w-5.5 h-5.5 w-[22px] h-[22px] rounded-full bg-blue-100 border border-blue-200 text-[10px] font-bold flex items-center justify-center text-blue-700">
                                 {item.assignee_name.charAt(0)}
                               </span>
-                              <span>{item.assignee_name}</span>
+                              <span className="font-medium">{item.assignee_name}</span>
                             </div>
                           ) : (
-                            <span className="text-amber-400/90 font-medium italic">Unassigned</span>
+                            <span className="text-amber-600 font-medium italic">Unassigned</span>
                           )}
                         </td>
-                        <td className="py-3.5 px-4 whitespace-nowrap">
+                        <td className="py-3 px-4 whitespace-nowrap">
                           <StatusBadge status={item.status} />
                         </td>
-                        <td className="py-3.5 px-4 whitespace-nowrap">
+                        <td className="py-3 px-4 whitespace-nowrap">
                           <SLAIndicator dueAt={item.sla_due_at} status={item.sla_status} />
                         </td>
-                        <td className="py-3.5 px-4 text-center font-mono text-slate-400">
+                        <td className="py-3 px-4 text-center font-mono text-slate-400 tabular-nums">
                           v{item.version}
                         </td>
-                        <td className="py-3.5 px-4 text-right">
+                        <td className="py-3 px-4 text-right">
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               setSelectedItemId(item.id);
                             }}
-                            className="px-2.5 py-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition"
+                            className="p-1.5 text-slate-300 hover:text-blue-600 hover:bg-blue-50 rounded-md transition opacity-0 group-hover:opacity-100 focus-ring"
                           >
                             <ChevronRight className="w-4 h-4" />
                           </button>
@@ -503,11 +528,11 @@ export default function OpsCommandCenter() {
 
             {/* Pagination Controls */}
             {nextCursor && (
-              <div className="p-4 border-t border-slate-800 flex items-center justify-between bg-slate-900/40 text-xs">
-                <span className="text-slate-400">Keyset cursor pagination enabled (zero offset lag)</span>
+              <div className="p-3.5 border-t border-slate-200 flex items-center justify-between bg-slate-50/60 text-xs">
+                <span className="text-slate-400 font-medium">Keyset cursor pagination enabled (zero offset lag)</span>
                 <button
                   onClick={() => fetchWorkItems(nextCursor)}
-                  className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg font-semibold transition"
+                  className="px-4 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-lg font-semibold transition hover:shadow-sm focus-ring"
                 >
                   Load Next 25 Items
                 </button>
