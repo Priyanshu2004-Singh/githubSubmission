@@ -1,0 +1,25 @@
+// GitHub Codespaces configuration — Newtonite OpsPulse
+// Touches only the development environment; no application code, scripts,
+// ports, or routes are modified. Reference: https://containers.dev/devcontainer.json
+{
+  "name": "Newtonite OpsPulse",
+
+  // Debian (bookworm) + Node.js 22 LTS. Ships the toolchain needed to
+  // install the native dependency `better-sqlite3` (and falls back to
+  // node-gyp build if a prebuilt binary is not matched).
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+
+  // Fresh Codespaces have no database: `.data/` is gitignored (SQLite file),
+  // so install deps from the committed lockfile, then seed the demo DB.
+  "postCreateCommand": "npm ci --no-audit --no-fund && npm run seed",
+
+  // package.json "dev": "next dev" starts on its default port 3000 and
+  // already binds 0.0.0.0 (verified locally: "Network: http://<ip>:3000").
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "OpsPulse Web App",
+      "onAutoForward": "openPreview"
+    }
+  }
+}
