@@ -11,7 +11,7 @@ A GitHub Codespace for this repository is already provisioned and the Next.js se
 
 - **Codespace used:** `opspulse-live-preview-jj7prxrgrr7whj7p4`
 - **Open it here (requires signing in as the repository owner):**
-Preview is running fine
+Preview is running::::
   [https://github.com/codespaces/opspulse-live-preview-jj7prxrgrr7whj7p4](https://github.com/codespaces/opspulse-live-preview-jj7prxrgrr7whj7p4)
 - **Port to forward:** `3000` (labels as *OpsPulse Web App*)
 - **Visibility:** Private by default — only you can open the preview while you are signed in to GitHub.
