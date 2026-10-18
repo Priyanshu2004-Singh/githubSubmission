@@ -86,7 +86,7 @@ The application has been engineered for **zero-friction evaluator startup**. No 
 ### 2. Setup & Installation
 ```bash
 # Clone the repository
-git clone <repo-url>
+git clone https://github.com/Priyanshu2004-Singh/githubSubmission.git
 cd githubSubmission
 
 # Install dependencies
@@ -149,7 +149,7 @@ npm test
 
 ## Engineering Decisions & Documentation
 
-See [**`ENGINEERING_DECISIONS.md`**](file:///Users/priyanshusingh/Desktop/frontend%20Practical/githubSubmission/ENGINEERING_DECISIONS.md) for in-depth evaluations of:
+See [**`ENGINEERING_DECISIONS.md`**](ENGINEERING_DECISIONS.md) for in-depth evaluations of:
 1. Optimistic Concurrency Control (OCC) vs. Pessimistic Row Locking
 2. Atomic Conditional Writes for Work Claiming vs. Distributed Mutexes
 3. Transactional Outbox Pattern vs. Inline Synchronous Notifications
